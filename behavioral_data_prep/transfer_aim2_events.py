@@ -10,7 +10,7 @@ import shutil
 
 def move_EV(subj, task, fmri_dir):
     file_dir = path.dirname(__file__)
-    events_dir = join(file_dir, '../behavioral_data/event_files')
+    events_dir = join(file_dir, '../behavioral_data/aim2/event_files')
     subj = subj.replace('sub-','')
     # get event file
     ev_file = glob(join(events_dir,'%s_%s*' % (subj, task)))[0]
@@ -35,7 +35,6 @@ def move_EVs(data_dir, tasks, overwrite=True, verbose=False):
                 event_files = glob(join(subj_file, 'func', '*%s*events.tsv' % task))
                 if overwrite==True or len(event_files)==0:
                     try:
-			print(subj)
                         name = move_EV(subj, task, data_dir)
                         created_files.append(name)
                         total_transfers[task] += 1

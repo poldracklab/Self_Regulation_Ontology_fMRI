@@ -1,0 +1,23 @@
+#!/bin/bash
+#SBATCH --job-name=rest_parcel
+#SBATCH --output=.out/rest_parcel.out
+#SBATCH --error=.err/rest_parcel.err
+#SBATCH --time=6:00:00
+#SBATCH --mail-type=END
+#SBATCH --mail-user=poldracklab@stanford.edu
+#SBATCH --cpus-per-task=16
+#SBATCH --ntasks-per-node=1
+#SBATCH -p russpold,hns,owners
+#SBATCH --exclude=sh02-06n01,sh02-06n02
+export PYTHONPATH=""
+source ~/miniconda3/etc/profile.d/conda.sh 
+conda activate py3-env
+
+derivatives_loc=`sed '6q;d' singularity_config.txt`
+bids_dir=`sed '8q;d' singularity_config.txt`
+atlas_dir='../../../fmri_data_prep/'
+output_dir=${derivatives_loc}/'parcellations/rest'
+
+eval "python3 ../../../fmri_data_prep/rest_parcellation.py -bids_dir ${bids_dir} -atlas_dir ${atlas_dir} -output_dir ${output_dir} -atlas SUIT" &
+eval "python3 ../../../fmri_data_prep/rest_parcellation.py -bids_dir ${bids_dir} -output_dir ${output_dir} -atlas 400" &
+wait

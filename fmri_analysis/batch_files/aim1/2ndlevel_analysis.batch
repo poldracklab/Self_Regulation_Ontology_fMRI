@@ -1,27 +1,27 @@
 #!/bin/bash
-#SBATCH --job-name={task}-2ndlevel
-#SBATCH --output=.out/{task}-2ndlevel.out
-#SBATCH --error=.err/{task}-2ndlevel.err
-#SBATCH --time=20:00:00
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=ieisenbe@stanford.edu
+#SBATCH --job-name={task}-2nd-{scnd_lvl}
+#SBATCH --output=.out/{task}-2nd-{scnd_lvl}.out
+#SBATCH --error=.err/{task}-2nd-{scnd_lvl}.err
+#SBATCH --time=96:00:00
+#SBATCH --mail-type=END
+#SBATCH --mail-user=poldracklab@stanford.edu
 #SBATCH --ntasks-per-node=1
 #SBATCH --cpus-per-task=16
-#SBATCH -p russpold
+#SBATCH -p russpold,normal,hns
 #module load system
 # set up paths
 # scratch is automatically mounted
-img=`sed '2q;d' singularity_config.txt`
-base_singularity=`sed '4q;d' singularity_config.txt`
+img=`sed '2q;d' singularity_config_2ndlevels.txt`
+base_singularity=`sed '4q;d' singularity_config_2ndlevels.txt`
 singularity_loc=${base_singularity}/$img
-derivatives_loc=`sed '6q;d' singularity_config.txt`
+derivatives_loc=`sed '6q;d' singularity_config_2ndlevels.txt`
 data_loc=`sed '8q;d' singularity_config.txt`
 scripts_loc=../../scripts
-scratch_loc=/scratch/users/ieisenbe
+scratch_loc=$SCRATCH
 # run singularity, scratch is automatically mounted
 singularity exec -B ${scripts_loc}:/scripts ${singularity_loc} \
-    python /scripts/2ndlevel_analysis.py -derivatives_dir ${derivatives_loc} --tasks {task} --rt
+    python /scripts/2ndlevel_analysis.py -derivatives_dir ${derivatives_loc} --tasks {task} --rt --aim aim1 --scnd_lvl {scnd_lvl}
 
 singularity exec -B ${scripts_loc}:/scripts ${singularity_loc} \
-    python /scripts/2ndlevel_analysis.py -derivatives_dir ${derivatives_loc} --tasks {task}
+    python /scripts/2ndlevel_analysis.py -derivatives_dir ${derivatives_loc} --tasks {task} --aim aim1 --scnd_lvl {scnd_lvl}
 

@@ -19,3 +19,14 @@ nilearn_data*
 nipype_mem*
 .spyproject
 dockerfile_old
+.vscode/
+behavioral_data_prep/Untitled.ipynb
+docker_path.txt
+fmri_analysis/scripts/Untitled.ipynb
+*Untitled*.ipynb
+*/*Untitled*.ipynb
+*/*/*Untitled*.ipynb
+*.err*
+*.out*
+fmri_analysis/fsl/tmp_batch/*
+fmri_data_prep/scitran/

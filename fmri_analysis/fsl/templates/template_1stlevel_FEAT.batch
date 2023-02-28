@@ -1,0 +1,20 @@
+#!/bin/bash
+#SBATCH --job-name={TASK}_{SUBJECT}_FEAT
+#SBATCH --output=.out/{TASK}_{SUBJECT}_FEAT.out
+#SBATCH --error=.err/{TASK}_{SUBJECT}_FEAT.err
+#SBATCH --time=100:00:00
+#SBATCH --mail-type=END
+#SBATCH --mail-user=poldracklab@stanford.edu
+#SBATCH --cpus-per-task=16
+#SBATCH --ntasks-per-node=1
+#SBATCH -p russpold,hns
+#SBATCH --exclude=sh02-06n01,sh02-06n02
+export PYTHONPATH=""
+
+fsl_dir="/home/groups/russpold/uh2_analysis/Self_Regulation_Ontology_fMRI/fmri_analysis/fsl"
+tmp_dir=$fsl_dir/"tmp_batch"
+
+feat $tmp_dir/{TASK}_{SUBJECT}_RT-True_fsl.fsf
+
+feat $tmp_dir/{TASK}_{SUBJECT}_RT-False_fsl.fsf
+
